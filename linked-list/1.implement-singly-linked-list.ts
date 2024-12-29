@@ -9,15 +9,9 @@ class MyNode<T> {
 }
 
 class SinglyLinkedList<T> {
-  private head: MyNode<T> | null;
-  private tail: MyNode<T> | null;
-  private length: number;
-
-  constructor() {
-    this.head = null;
-    this.tail = null;
-    this.length = 0;
-  }
+  private head: MyNode<T> | null = null;
+  private tail: MyNode<T> | null = null;
+  private length: number = 0;
 
   public printList(): void {
     const result = [];
@@ -164,6 +158,29 @@ class SinglyLinkedList<T> {
     this.length--;
     return removeNode ? removeNode.data : null;
   }
+
+  public reverse() {
+    // single node list
+    if (!this.head?.next) return this.head;
+
+    // update tail pointer
+    this.tail = this.head;
+
+    // swaping node in-place
+    let first = this.head;
+    let second = first.next;
+
+    while (second) {
+      let temp = second.next;
+      second.next = first;
+      first = second;
+      second = temp;
+    }
+
+    // update head pointer
+    this.head.next = null;
+    this.head = first;
+  }
 }
 
 // -------------- Example usuage -----------------
@@ -217,3 +234,12 @@ console.log(
   "remove element with out of bound index = ",
   myLinkedList.remove(10)
 );
+
+// reversing existing linked list
+console.log("before reversing linked list -> ");
+myLinkedList.printList();
+
+myLinkedList.reverse();
+
+console.log("after reversing linked list ->");
+myLinkedList.printList();
